@@ -1,32 +1,16 @@
 const mongoose = require("mongoose");
 
-const chatSchema = new mongoose.Schema({
-  role: {
-    type: String,
-    enum: ["user", "assistant"],
-    required: true
-  },
+const messageSchema = new mongoose.Schema({
+  role: String,
   message: String,
-  timestamp: {
-    type: Date,
-    default: Date.now
-  }
+  timestamp: { type: Date, default: Date.now }
 });
 
 const sessionSchema = new mongoose.Schema({
   sessionId: String,
-  chatHistory: [chatSchema],
-
-  detectedEmotion: String,
-  emotionScores: Object,
-
-  meditationType: String,
-  meditationText: String,
-
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  chatHistory: [messageSchema],
+  lastEmotion: String,
+  createdAt: { type: Date, default: Date.now }
 });
 
 module.exports = mongoose.model("Session", sessionSchema);
