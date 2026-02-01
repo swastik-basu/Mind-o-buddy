@@ -1,150 +1,192 @@
-# 🧘 Mind-o-Buddy
+# 🌿 Mind-o-Buddy
 
-**An AI-powered mindfulness companion that listens first and guides meditation when needed**
+*A calm, anonymous space for mindfulness and reflection*
 
-Mind-o-Buddy is a backend-driven AI system that:
+Mind-o-Buddy is a lightweight, privacy-first mindfulness web application.
+It provides a gentle chat experience where users can express how they feel and, when appropriate, transition into a short, calming meditation screen.
 
-* Allows users to express how they feel (chat-style)
-* Detects emotional signals from text
-* Gently suggests short mindfulness exercises when appropriate
+This project focuses on **emotional safety, simplicity, and system stability**, making it suitable for hackathon demos and future expansion.
 
-This project is designed to be **simple to run**, **privacy-friendly**, and **hackathon-ready**.
+---
+
+## ✨ Core Principles
+
+* 🧘 Calm, distraction-free experience
+* 🔐 Anonymous sessions (no login, no personal data)
+* 🧱 Stable backend before AI dependencies
+* 🔌 AI-agnostic architecture (can be added later safely)
 
 ---
 
 ## 🛠 Tech Stack
 
-* **Node.js** + **Express** — backend server
-* **MongoDB** — session storage
-* **Hugging Face Inference API** — emotion detection
-* **REST APIs** — clean separation of concerns
+### Frontend
 
-> No login required. Sessions are anonymous.
+* React (Vite)
+* Plain CSS (gentle, minimal styling)
+
+### Backend
+
+* Node.js
+* Express
+* MongoDB (Mongoose)
+* UUID (anonymous session handling)
 
 ---
 
 ## 📂 Project Structure
 
 ```
-mind-o-buddy/
-├── server/
+Mind-o-Buddy/
+├── client/                  # Frontend (React)
 │   ├── src/
-│   │   ├── routes/
+│   │   ├── components/
+│   │   │   ├── Landing.jsx
+│   │   │   ├── Chat.jsx
+│   │   │   └── Meditation.jsx
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   └── styles.css
+│   ├── index.html
+│   └── package.json
+│
+├── server/                  # Backend (Express)
+│   ├── src/
 │   │   ├── controllers/
-│   │   ├── services/
-│   │   ├── utils/
-│   │   └── middleware/
-│   ├── .env.example
-│   ├── package.json
+│   │   │   └── chat.controller.js
+│   │   ├── middleware/
+│   │   │   └── session.middleware.js
+│   │   ├── models/
+│   │   │   └── Session.js
+│   │   ├── routes/
+│   │   │   └── chat.routes.js
+│   │   └── app.js
 │   ├── server.js
-│   └── .gitignore
+│   ├── .env.example
+│   └── package.json
+│
+└── README.md
 ```
 
 ---
 
-## ⚙️ Setup Instructions (For Judges)
+## 🔐 Privacy by Design
 
-Follow these steps **exactly**.
+* No accounts
+* No emails or identifiers
+* Anonymous session ID via headers
+* Chat history stored only for session continuity
 
 ---
 
-### ✅ Step 1: Prerequisites
+## ⚙️ Setup Instructions (For Judges & Reviewers)
 
-Ensure the following are installed:
+### ✅ Prerequisites
 
-* **Node.js** (v18 or later recommended)
-  👉 [https://nodejs.org](https://nodejs.org)
-* **MongoDB** (local or Atlas)
-  👉 [https://www.mongodb.com](https://www.mongodb.com)
+* Node.js (v18+ recommended)
+* MongoDB (local or Atlas)
 
-Check installation:
+---
+
+## 🚀 Backend Setup
+
+### 1️⃣ Go to backend folder
 
 ```bash
-node -v
-npm -v
+cd server
 ```
 
----
-
-### ✅ Step 2: Clone the Repository
-
-```bash
-git clone <repository-url>
-cd mind-o-buddy/server
-```
-
----
-
-### ✅ Step 3: Install Dependencies
+### 2️⃣ Install dependencies
 
 ```bash
 npm install
 ```
 
----
-
-### ✅ Step 4: Environment Variables
-
-Create a `.env` file inside the `server/` directory.
-
-You can copy from the example:
+### 3️⃣ Create `.env`
 
 ```bash
 cp .env.example .env
 ```
 
-Edit `.env` and add the following:
+Edit `.env`:
 
 ```env
 PORT=5000
-MONGO_URI=mongodb://127.0.0.1:27017/mindfulness
-HF_API_KEY=your_huggingface_api_key_here
+MONGO_URI=mongodb://127.0.0.1:27017/mindobuddy
 ```
 
-🔑 **Hugging Face API Key**
-
-* Create a free account at [https://huggingface.co](https://huggingface.co)
-* Go to **Settings → Access Tokens**
-* Create a **Read** token
-* Paste it here
-
----
-
-### ✅ Step 5: Start MongoDB
-
-If using local MongoDB:
+### 4️⃣ Start MongoDB
 
 ```bash
 mongod
 ```
 
-Or ensure MongoDB Atlas is running and accessible.
+(or ensure MongoDB Atlas is running)
 
----
-
-### ✅ Step 6: Run the Server
+### 5️⃣ Start backend server
 
 ```bash
 npm start
 ```
 
-You should see:
+Expected output:
 
 ```
-Server running on port 5000
 MongoDB connected
+Server running on port 5000
 ```
 
 ---
 
-## 🧪 API Testing (Optional but Recommended)
+## 🌸 Frontend Setup
 
-Use **Thunder Client**, **Postman**, or **curl**.
+### 1️⃣ Go to frontend folder
 
-### 🔹 Health Check
+```bash
+cd client
+```
+
+### 2️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+### 3️⃣ Start frontend
+
+```bash
+npm run dev
+```
+
+Open in browser:
 
 ```
-GET http://localhost:5000/ping
+http://localhost:5173
+```
+
+---
+
+## 🧭 Application Flow
+
+1. **Landing Page**
+   A calm introduction and a single action: *Start a conversation*
+
+2. **Chat Screen**
+   Users express how they feel in a gentle, chat-style interface
+
+3. **Meditation Screen**
+   A quiet, focused screen with a short guided meditation text
+
+Navigation is intentionally minimal and state-based to reduce cognitive load.
+
+---
+
+## 🧪 API Endpoints
+
+### Health Check
+
+```
+GET /ping
 ```
 
 Response:
@@ -155,77 +197,51 @@ Response:
 
 ---
 
-### 🔹 Emotion Detection Test
+### Chat Endpoint
 
 ```
-POST http://localhost:5000/emotion-test
+POST /api/chat
 ```
 
 Body:
 
 ```json
 {
-  "text": "I'm feeling overwhelmed and stressed"
+  "message": "I feel stressed today"
 }
 ```
 
-Response (example):
+Response:
 
 ```json
 {
-  "emotion": "sadness",
-  "scores": {
-    "sadness": 0.42,
-    "fear": 0.31,
-    "anger": 0.08,
-    "neutral": 0.12,
-    "joy": 0.06
-  }
+  "reply": "I’m here with you. Thank you for sharing how you feel. Take a slow breath, and we can talk more if you want.",
+  "suggestMeditation": false
 }
 ```
 
 ---
 
-## 🧠 How It Works (For Judges)
+## 🧠 Notes for Judges
 
-1. User inputs free-form text
-2. Text is sent to Hugging Face for **emotion classification**
-3. Dominant emotional signals are extracted
-4. System decides whether mindfulness guidance may help
-5. Meditation is suggested **only when appropriate**
-
-> The system does **not** diagnose, treat, or replace professional care.
+* This submission prioritizes **stability and user safety**
+* AI integration is intentionally **decoupled** to avoid demo risk
+* The architecture is designed to support AI providers later
+* The system works fully without external APIs
 
 ---
 
-## 🔐 Privacy & Ethics
+## 🔮 Future Scope
 
-* No user accounts
-* No personal identifiers
-* Anonymous sessions only
-* No medical or therapeutic claims
-
----
-
-## 🚀 Future Scope
-
-* Frontend chat UI
-* Audio-based guided meditation
+* AI-powered emotional awareness
+* Dynamic meditation suggestions
+* Audio-guided meditation
 * Emotion trends over time
-* Mobile app integration
+* Mobile-friendly UI
 
 ---
 
-## 👥 Team Notes
+## 🤍 Final Note
 
-If anything fails to run:
-
-1. Check `.env`
-2. Ensure MongoDB is running
-3. Restart the server
-
----
-
-### ✅ That’s it!
-
-The project is now ready to be reviewed, tested, and judged.
+Mind-o-Buddy is built around the idea that
+**technology meant for mental wellbeing should feel calm, not overwhelming**.
